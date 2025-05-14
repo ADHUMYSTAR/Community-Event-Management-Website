@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPulse - User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .profile-header {
+            background: linear-gradient(45deg, #459d97, #2575fc);
+        }
+        
+        .modal {
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+            <!-- Navigation remains the same as previous version -->
+            <nav class="bg-gray-100 p-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="/api/placeholder/50/50" alt="EventPulse Logo" class="h-10 w-10 mr-3">
+                    <span class="text-xl font-bold text-purple-600">EventPulse</span>
+                </div>
+                <div class="space-x-4">
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Events</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Community</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Logout</a>
+                </div>
+            </nav>
+
+            <!-- Rest of the previous profile page content -->
+            <div id="profileContent" class="hidden">
+                <!-- Existing profile page content will be here -->
+                <!-- Profile header, stats, achievements, etc. -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Modal -->
+    <div id="onboardingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-center">Complete Your Profile</h2>
+            <p class="text-gray-600 mb-6 text-center">To contribute to the community, please provide your contact information.</p>
+
+            <form id="onboardingForm" class="space-y-4">
+                <div>
+                    <label class="block mb-2 font-semibold">Phone Number</label>
+                    <input type="tel" id="phoneInput" placeholder="Enter your phone number" class="w-full p-3 border rounded-lg" required>
+                </div>
+
+                <div>
+                    <label class="block mb-2 font-semibold">Address</label>
+                    <input type="text" id="streetInput" placeholder="Street Address" class="w-full p-3 border rounded-lg mb-2" required>
+                    <div class="flex space-x-2">
+                        <input type="text" id="cityInput" placeholder="City" class="w-1/2 p-3 border rounded-lg" required>
+                        <input type="text" id="stateInput" placeholder="State" class="w-1/4 p-3 border rounded-lg" required>
+                        <input type="text" id="zipInput" placeholder="ZIP" class="w-1/4 p-3 border rounded-lg" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+                    Complete Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve user data from localStorage
+            const user = JSON.parse(localStorage.getItem('user')) || {};
+
+            // Select DOM elements
+            const onboardingModal = document.getElementById('onboardingModal');
+            const onboardingForm = document.getElementById('onboardingForm');
+            const profileContent = document.getElementById('profileContent');
+
+            // Check if user needs onboarding
+            function checkOnboarding() {
+                // Check if phone and address are missing
+                if (!user.phone || !user.address) {
+                    onboardingModal.classList.remove('hidden');
+                    profileContent.classList.add('hidden');
+                } else {
+                    onboardingModal.classList.add('hidden');
+                    profileContent.classList.remove('hidden');
+                    updateProfileContent();
+                }
+            }
+
+            // Update profile content function
+            function updateProfileContent() {
+                // Placeholder for updating profile details
+                // You would add code here to populate profile sections
+                console.log('Updating profile content');
+            }
+
+            // Handle form submission
+            onboardingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Collect form data
+                const phoneNumber = document.getElementById('phoneInput').value.trim();
+                const street = document.getElementById('streetInput').value.trim();
+                const city = document.getElementById('cityInput').value.trim();
+                const state = document.getElementById('stateInput').value.trim();
+                const zip = document.getElementById('zipInput').value.trim();
+
+                // Validate inputs
+                if (phoneNumber && street && city && state && zip) {
+                    // Update user object
+                    user.phone = phoneNumber;
+                    user.address = {
+                        street,
+                        city,
+                        state,
+                        zip
+                    };
+
+                    // Save to localStorage
+                    localStorage.setItem('user', JSON.stringify(user));
+
+                    // Hide modal and show profile
+                    onboardingModal.classList.add('hidden');
+                    profileContent.classList.remove('hidden');
+
+                    // Update profile content
+                    updateProfileContent();
+                } else {
+                    alert('Please fill in all fields');
+                }
+            });
+
+            // Initial check for onboarding
+            checkOnboarding();
+        });
+    </script>
+</body>
+
+</html>

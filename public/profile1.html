@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPulse - User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+         :root {
+            --primary-color: #459d97;
+            --secondary-color: #2575fc;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .profile-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .achievement-badge {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* Modal Styles */
+        
+        #contactModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
+            <!-- Navigation -->
+            <nav class="bg-gray-100 p-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="/api/placeholder/50/50" alt="EventPulse Logo" class="h-10 w-10 mr-3">
+                    <span class="text-xl font-bold text-purple-600">EventPulse</span>
+                </div>
+                <div class="space-x-4">
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Events</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Community</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600">Logout</a>
+                </div>
+            </nav>
+
+            <!-- Gradient Profile Header -->
+            <div class="profile-header text-white p-8 flex items-center">
+                <div class="relative">
+                    <img id="profileImage" src="/api/placeholder/200/200" class="w-48 h-48 rounded-full border-4 border-white shadow-lg object-cover">
+                    <div class="absolute bottom-0 right-0 bg-green-500 w-8 h-8 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-white"></i>
+                    </div>
+                </div>
+                <div class="ml-8">
+                    <h1 id="userName" class="text-4xl font-bold mb-2">Loading...</h1>
+                    <p id="userTitle" class="text-xl opacity-80">Community Connector</p>
+                    <div class="mt-2 flex items-center">
+                        <i class="fas fa-envelope mr-2 opacity-70"></i>
+                        <p id="userEmail" class="text-sm opacity-90">-</p>
+                    </div>
+                    <div class="mt-2 flex items-center">
+                        <i class="fas fa-phone mr-2 opacity-70"></i>
+                        <p id="userPhone" class="text-sm opacity-90">-</p>
+                    </div>
+                    <div class="mt-2 flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 opacity-70"></i>
+                        <p id="userAddress" class="text-sm opacity-90">-</p>
+                    </div>
+                    <div class="mt-4 flex space-x-4">
+                        <button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30 transition">
+                            Edit Profile
+                        </button>
+                        <button class="bg-white/20 px-4 py-2 rounded-full hover:bg-white/30 transition">
+                            Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-6 p-8">
+                <!-- User Stats -->
+                <div class="col-span-1 space-y-6">
+                    <div class="bg-gray-100 p-6 rounded-2xl stat-card tooltip">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Events Attended</h3>
+                            <i class="fas fa-calendar-check text-purple-600"></i>
+                        </div>
+                        <p id="eventsAttended" class="text-4xl font-bold text-purple-600">32</p>
+                        <span class="tooltiptext">Number of community events you've participated in</span>
+                    </div>
+                    <div class="bg-gray-100 p-6 rounded-2xl stat-card tooltip">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Community Impact</h3>
+                            <i class="fas fa-globe text-green-600"></i>
+                        </div>
+                        <p id="communityImpact" class="text-4xl font-bold text-green-600">1,247</p>
+                        <span class="tooltiptext">Total positive interactions and contributions</span>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="col-span-1 bg-gray-100 p-6 rounded-2xl">
+                    <h3 class="text-2xl font-bold mb-6">Achievements</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="achievement-badge bg-yellow-500 w-24 h-24 flex items-center justify-center text-white tooltip">
+                            <i class="fas fa-trophy text-3xl"></i>
+                            <span class="tooltiptext">Community Champion Award</span>
+                        </div>
+                        <div class="achievement-badge bg-blue-500 w-24 h-24 flex items-center justify-center text-white tooltip">
+                            <i class="fas fa-medal text-3xl"></i>
+                            <span class="tooltiptext">Volunteer of the Year</span>
+                        </div>
+                        <div class="achievement-badge bg-red-500 w-24 h-24 flex items-center justify-center text-white tooltip">
+                            <i class="fas fa-star text-3xl"></i>
+                            <span class="tooltiptext">Top Fundraiser Badge</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart & Interactions -->
+                <div class="col-span-1 space-y-6">
+                    <div class="bg-gray-100 p-6 rounded-2xl stat-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Cart Summary</h3>
+                            <i class="fas fa-shopping-cart text-blue-600"></i>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Total Items</span>
+                            <span id="cartItemCount" class="font-bold text-blue-600">5</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <span>Total Price</span>
+                            <span id="cartTotalPrice" class="font-bold text-blue-600">$245.50</span>
+                        </div>
+                        <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                            View Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Recent Activity -->
+            <div class="bg-gray-50 p-8">
+                <h3 class="text-2xl font-bold mb-6">Recent Activity</h3>
+                <div id="activityFeed" class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-calendar text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Registered for Community Cleanup Event</p>
+                            <p class="text-gray-500 text-sm">2 days ago</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-donate text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Donated $50 to Local Education Fund</p>
+                            <p class="text-gray-500 text-sm">1 week ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Contact Information Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="modal-content bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-2xl font-bold mb-6 text-center">Complete Your Profile</h2>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label for="phoneNumber" class="block mb-2">Phone Number</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your phone number">
+                </div>
+                <div>
+                    <label for="address" class="block mb-2">Address</label>
+                    <textarea id="address" name="address" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your full address"></textarea>
+                </div>
+                <div class="flex justify-center space-x-4 mt-6">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition" id="saveInfoBtn">
+                        Save Information
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async() => {
+            // Retrieve user data from localStorage
+            const user = JSON.parse(localStorage.getItem('user')) || {};
+
+            // Update basic profile details
+            document.getElementById('userName').textContent = user.username || 'N/A';
+            document.getElementById('userEmail').textContent = user.email || 'N/A';
+            document.getElementById('userPhone').textContent = user.phoneNumber || 'Not provided';
+            document.getElementById('userAddress').textContent = user.address || 'Not provided';
+
+            // Fetch event creation and participation data from the server
+            try {
+                const userId = user._id; // Assuming user object has _id
+
+                if (userId) {
+                    // Fetch user activity data including events created and participated
+                    const response = await fetch(`/api/users/${userId}/activity`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const activityData = await response.json();
+
+                        // Update events attended count
+                        document.getElementById('eventsAttended').textContent =
+                            activityData.eventsParticipated || '0';
+
+                        // Update community impact score (could be a calculation based on events + other factors)
+                        document.getElementById('communityImpact').textContent =
+                            activityData.communityImpact || '0';
+
+                        // Update activity feed with recent events
+                        updateActivityFeed(activityData.recentActivity || []);
+
+                        // Update cart data if available
+                        if (activityData.cart) {
+                            document.getElementById('cartItemCount').textContent =
+                                activityData.cart.itemCount || '0';
+                            document.getElementById('cartTotalPrice').textContent =
+                                `$${activityData.cart.totalPrice.toFixed(2) || '0.00'}`;
+                        }
+                    } else {
+                        console.error('Failed to fetch user activity data');
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user activity:', error);
+            }
+
+            // Check if phone or address is missing
+            if (!user.phoneNumber || !user.address) {
+                handleMissingContactInfo(user);
+            }
+
+            // Redirect to login if no user found
+            if (!Object.keys(user).length) {
+                alert("No user found. Please log in.");
+                window.location.href = "login.html";
+            }
+        });
+
+        // Function to update the activity feed with recent events
+        function updateActivityFeed(activities) {
+            const activityFeed = document.getElementById('activityFeed');
+
+            // Clear existing activities
+            activityFeed.innerHTML = '';
+
+            if (activities.length === 0) {
+                activityFeed.innerHTML = '<p class="text-gray-500 text-center py-4">No recent activity</p>';
+                return;
+            }
+
+            // Add each activity to the feed
+            activities.forEach(activity => {
+                let iconClass, bgColorClass, textColorClass;
+
+                // Determine icon and color based on activity type
+                switch (activity.type) {
+                    case 'event_created':
+                        iconClass = 'fa-calendar-plus';
+                        bgColorClass = 'bg-blue-100';
+                        textColorClass = 'text-blue-600';
+                        break;
+                    case 'event_registered':
+                        iconClass = 'fa-calendar-check';
+                        bgColorClass = 'bg-purple-100';
+                        textColorClass = 'text-purple-600';
+                        break;
+                    case 'donation':
+                        iconClass = 'fa-donate';
+                        bgColorClass = 'bg-green-100';
+                        textColorClass = 'text-green-600';
+                        break;
+                    default:
+                        iconClass = 'fa-bell';
+                        bgColorClass = 'bg-gray-100';
+                        textColorClass = 'text-gray-600';
+                }
+
+                const activityElement = document.createElement('div');
+                activityElement.className = 'bg-white p-4 rounded-lg shadow-md flex items-center';
+                activityElement.innerHTML = `
+            <div class="${bgColorClass} p-3 rounded-full mr-4">
+                <i class="fas ${iconClass} ${textColorClass}"></i>
+            </div>
+            <div>
+                <p class="font-semibold">${activity.description}</p>
+                <p class="text-gray-500 text-sm">${formatTimeAgo(activity.timestamp)}</p>
+            </div>
+        `;
+
+                activityFeed.appendChild(activityElement);
+            });
+        }
+
+        // Function to format timestamp to "X time ago" format
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const activityDate = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - activityDate) / 1000);
+
+            if (diffInSeconds < 60) {
+                return 'just now';
+            }
+
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+            if (diffInMinutes < 60) {
+                return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
+            }
+
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            if (diffInHours < 24) {
+                return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
+            }
+
+            const diffInDays = Math.floor(diffInHours / 24);
+            if (diffInDays < 7) {
+                return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
+            }
+
+            const diffInWeeks = Math.floor(diffInDays / 7);
+            if (diffInWeeks < 4) {
+                return `${diffInWeeks} week${diffInWeeks !== 1 ? 's' : ''} ago`;
+            }
+
+            const diffInMonths = Math.floor(diffInDays / 30);
+            return `${diffInMonths} month${diffInMonths !== 1 ? 's' : ''} ago`;
+        }
+
+        // Function to handle missing contact information
+        function handleMissingContactInfo(user) {
+            // Show modal
+            const contactModal = document.getElementById('contactModal');
+            contactModal.style.display = 'flex';
+
+            // Handle form submission
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', async(e) => {
+                e.preventDefault();
+
+                // Get form values
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                const address = document.getElementById('address').value;
+
+                try {
+                    // Send update request to backend
+                    const response = await fetch('/api/profile/update', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: user.email,
+                            phoneNumber: phoneNumber,
+                            address: address
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Update user object in localStorage
+                        const updatedUser = {
+                            ...user,
+                            phoneNumber: phoneNumber,
+                            address: address
+                        };
+                        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+                        // Update profile display
+                        document.getElementById('userPhone').textContent = phoneNumber;
+                        document.getElementById('userAddress').textContent = address;
+
+                        // Hide modal
+                        contactModal.style.display = 'none';
+
+                        // Show success message
+                        alert(data.msg);
+                    } else {
+                        // Show error message
+                        alert(data.msg || 'Failed to update profile');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile. Please try again.');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

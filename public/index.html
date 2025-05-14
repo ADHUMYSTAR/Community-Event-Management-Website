@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPulse - Login and Registration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            max-width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #dfe5eb;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            background-color: #f9e076;
+            top: 100px;
+            left: 150px;
+        }
+        
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            background-color: #5BC8D0;
+            bottom: 100px;
+            left: 300px;
+        }
+        
+        .circle-3 {
+            width: 120px;
+            height: 120px;
+            background-color: #E98DC9;
+            top: 150px;
+            right: 180px;
+        }
+        
+        .circle-4 {
+            width: 90px;
+            height: 90px;
+            background-color: #7bbae6;
+            bottom: 120px;
+            right: 220px;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 500px;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #e782b8, #5BC8D0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .form-container {
+            border: none;
+            padding: 30px;
+            border-radius: 10px;
+            display: none;
+            background-color: white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .active {
+            display: block;
+            animation: slideUp 0.4s forwards;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: #3C7A89;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #e782b8, #5BC8D0, #7bbae6, #f9e076);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #3C7A89;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            box-sizing: border-box;
+            border: 1px solid #dfe5eb;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #5BC8D0;
+            box-shadow: 0 0 0 3px rgba(91, 200, 208, 0.2);
+        }
+        
+        button {
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        
+        button[type="submit"] {
+            background-color: #5BC8D0;
+            width: 100%;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #4ab8c0;
+            transform: translateY(-2px);
+        }
+        
+        .toggle-btn {
+            background-color: #e782b8;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-btn:hover {
+            background-color: #d971a7;
+            transform: translateY(-2px);
+        }
+        
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-size: 14px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        #welcomeMessage {
+            color: #3C7A89;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+
+    <div class="container">
+        <div class="logo">EventPulse</div>
+        <button class="toggle-btn" onclick="toggleForm()">Switch to Register</button>
+        <h2 id="welcomeMessage">Welcome to EventPulse</h2>
+
+        <div id="registerFormContainer" class="form-container">
+            <h2>Create Account</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" required placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" required placeholder="Create password">
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <div id="registerMessage" class="message"></div>
+        </div>
+
+        <div id="loginFormContainer" class="form-container active">
+            <h2>Sign In</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div id="loginMessage" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const loginContainer = document.getElementById("loginFormContainer");
+            const registerContainer = document.getElementById("registerFormContainer");
+            const toggleButton = document.querySelector(".toggle-btn");
+            const welcomeMessage = document.getElementById("welcomeMessage");
+
+            if (loginContainer.classList.contains("active")) {
+                loginContainer.classList.remove("active");
+                registerContainer.classList.add("active");
+                toggleButton.textContent = "Switch to Login";
+                welcomeMessage.textContent = "Join our community";
+            } else {
+                registerContainer.classList.remove("active");
+                loginContainer.classList.add("active");
+                toggleButton.textContent = "Switch to Register";
+                welcomeMessage.textContent = "Welcome back to EventPulse";
+            }
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+                const messageEl = document.getElementById('registerMessage');
+
+                if (response.ok) {
+                    messageEl.textContent = 'Registration successful! You can now login.';
+                    messageEl.className = 'message success';
+                    document.getElementById('registerForm').reset();
+                } else {
+                    messageEl.textContent = data.msg || 'Registration failed';
+                    messageEl.className = 'message error';
+                }
+
+                messageEl.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                const messageEl = document.getElementById('registerMessage');
+                messageEl.textContent = 'An error occurred during registration';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+            }
+        });
+
+
+        document.getElementById('loginForm').addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+                const messageEl = document.getElementById('loginMessage');
+
+                if (response.ok) {
+                    messageEl.textContent = 'Login successful!';
+                    window.location.href = "home.html";
+
+                    messageEl.className = 'message success';
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+                } else {
+                    messageEl.textContent = data.msg || 'Login failed';
+                    messageEl.className = 'message error';
+                }
+
+                messageEl.style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+                const messageEl = document.getElementById('loginMessage');
+                messageEl.textContent = 'An error occurred during login';
+                messageEl.className = 'message error';
+                messageEl.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

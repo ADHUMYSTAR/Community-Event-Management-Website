@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Community Events & Donations</title>
+    <style>
+         :root {
+            --primary: #ff6b6b;
+            --secondary: #58eee42e;
+            --accent: #ffe66d;
+            --light: #f7fff7;
+            --dark: #459d97;
+            --purple: #9b5de5;
+            --pink: #f15bb5;
+            --yellow: #fee440;
+            --blue: #58eee4;
+            --mint: #00f5d4;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(120deg, var(--light) 0%, #f0f8ff 100%);
+            overflow-x: hidden;
+        }
+        
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--purple), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #22626c;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            transition: width 0.3s ease;
+            border-radius: 5px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(155, 93, 229, 0.1) 0%, rgba(241, 91, 181, 0.1) 100%);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 2rem;
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #3f929f;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            border-radius: 5px;
+        }
+        
+        .typing-container {
+            height: 80px;
+            line-height: 80px;
+            overflow: hidden;
+        }
+        
+        .typing-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--purple);
+            position: relative;
+        }
+        
+        .typing-text::after {
+            position: absolute;
+            right: -5px;
+            animation: blink 0.7s infinite;
+            color: var(--pink);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #2f6e78;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(241, 91, 181, 0.3);
+            font-weight: 600;
+            margin: 0 0.5rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(241, 91, 181, 0.4);
+        }
+        
+        .cta-button.alt {
+            background: linear-gradient(to right, var(--secondary), var(--blue));
+            box-shadow: 0 4px 15px rgba(0, 187, 249, 0.3);
+        }
+        
+        .cta-button.alt:hover {
+            box-shadow: 0 7px 20px rgba(0, 187, 249, 0.4);
+        }
+        
+        .shape {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        
+        .shape-1 {
+            top: 15%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: var(--yellow);
+            border-radius: 41% 59% 37% 63% / 44% 42% 58% 56%;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .shape-2 {
+            bottom: 20%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            border-radius: 63% 37% 56% 44% / 37% 56% 44% 63%;
+            animation: float 9s ease-in-out infinite 1s;
+        }
+        
+        .shape-3 {
+            top: 30%;
+            right: 20%;
+            width: 70px;
+            height: 70px;
+            background: var(--pink);
+            border-radius: 35% 65% 31% 69% / 57% 59% 41% 43%;
+            animation: float 7s ease-in-out infinite 0.5s;
+        }
+        
+        .shape-4 {
+            bottom: 30%;
+            left: 20%;
+            width: 50px;
+            height: 50px;
+            background: var(--blue);
+            border-radius: 51% 49% 48% 52% / 62% 44% 56% 38%;
+            animation: float 10s ease-in-out infinite 2s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+        
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        
+        .events-section {
+            padding-top: 200px;
+            margin-top: 2rem;
+            background-color: rgba(198, 248, 241, 0.1);
+            ;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #4f7e84;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 4px;
+            bottom: -10px;
+            left: 15%;
+            background: linear-gradient(to right, var(--blue), var(--mint));
+            border-radius: 5px;
+        }
+        
+        .slider-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .event-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .event-card {
+            min-width: 300px;
+            width: 300px;
+            background: white;
+            margin: 0 1rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .event-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .event-card:hover .event-image {
+            transform: scale(1.05);
+        }
+        
+        .event-details {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .event-date {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .event-title {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-location {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .event-location svg {
+            margin-right: 0.5rem;
+            fill: var(--secondary);
+        }
+        
+        .event-description {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        
+        .countdown {
+            font-size: 1.2rem;
+            color: var(--dark);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .slider-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+        
+        .slider-btn {
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .slider-btn:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .slider-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--dark);
+        }
+        
+        .donation-section {
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, rgba(198, 248, 241, 0.1) 0%, rgba(0, 187, 249, 0.1) 100%);
+        }
+        
+        .donation-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .donation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(to right, var(--blue), var(--mint), var(--yellow));
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .donation-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .donation-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .donation-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .donation-goal {
+            margin-bottom: 3rem;
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .goal-text {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .goal-amount {
+            font-weight: 700;
+            color: var(--purple);
+        }
+        
+        .progress-container {
+            height: 25px;
+            background: #f1f1f1;
+            border-radius: 50px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary), var(--blue));
+            border-radius: 50px;
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient( 45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%);
+            background-size: 25px 25px;
+            animation: progress-animation 1s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes progress-animation {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 50px 0;
+            }
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .recent-donations {
+            margin-top: 3rem;
+        }
+        
+        .recent-title {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .donation-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .donation-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+        
+        .donation-item:hover {
+            background: rgba(0, 187, 249, 0.05);
+        }
+        
+        .donor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        
+        .donor-info {
+            flex-grow: 1;
+        }
+        
+        .donor-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.2rem;
+        }
+        
+        .donation-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .donation-amount {
+            font-weight: 700;
+            color: var(--blue);
+            font-size: 1.2rem;
+        }
+        
+        .donate-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 3rem auto 0;
+            background: linear-gradient(to right, var(--primary), var(--pink));
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(241, 91, 181, 0.3);
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .donate-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 7px 20px rgba(241, 91, 181, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .typing-text {
+                font-size: 2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .event-card {
+                min-width: 260px;
+                width: 260px;
+            }
+            .donate-btn {
+                max-width: 100%;
+            }
+        }
+        
+         :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffe66d;
+            --light: #cfe4e2;
+            --dark: rgba(136, 203, 215, 0.741);
+            --purple: #9b5de5;
+            --pink: #f15bb5;
+            --yellow: #fee440;
+            --blue: #00bbf9;
+            --mint: #00f5d4;
+            --contrast-dark: rgba(210, 224, 232, 0.745);
+        }
+        
+        .reviews-section {
+            padding: 2rem;
+            background-color: rgb(255, 255, 255);
+            background-color: rgba(198, 248, 241, 0.1);
+        }
+        
+        .feedback-form {
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.837);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(102, 107, 181, 0.15);
+        }
+        
+        .feedback-form h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .feedback-form input,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            font-size: 1rem;
+            background: rgb(255, 255, 255);
+        }
+        
+        .feedback-form .submit-btn {
+            background: linear-gradient(45deg, var(--pink), var(--purple));
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .feedback-form .submit-btn:hover {
+            opacity: 0.8;
+        }
+        
+        .review-slider {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .review-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .review-card {
+            min-width: 300px;
+            margin: 1rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+        
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .reviewer-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background: linear-gradient(45deg, var(--pink), var(--purple));
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+        
+        .review-stars {
+            color: var(--yellow);
+            margin-top: 0.5rem;
+        }
+        
+        .review-text {
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .review-slider {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-section {
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--contrast-dark) 100%);
+            color: rgb(255, 217, 217);
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c656e;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #154951;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #2b5960;
+        }
+        
+        .footer {
+            background: #2d889887;
+            color: rgb(255, 255, 255);
+            padding: 4rem 1rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--purple), var(--blue));
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-section {
+            padding: 1rem;
+        }
+        
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            border-radius: 3px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links i {
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--contrast-dark);
+            transform: translateY(-3px) rotate(8deg);
+            border-color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .user-button {
+            background: none;
+            border: none;
+            color: #45b3b3;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-button:hover {
+            background: rgba(69, 179, 179, 0.1);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        
+        .dropdown-menu a:hover {
+            background: #f5f5f5;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .nav-login-button {
+            background: none;
+            border: none;
+            color: #22626c;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-login-button:hover {
+            color: var(--primary);
+        }
+        
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+        
+        .user-dropdown.active {
+            display: block;
+        }
+        
+        .user-dropdown a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #22626c;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .user-dropdown a:hover {
+            background-color: #f5f5f5;
+            color: var(--primary);
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropbtn {
+            background-color: #45b3b3;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 150px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        
+        .dropdown-content a {
+            color: black;
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .news-section {
+            padding: 3rem 1rem;
+            background: rgba(198, 248, 241, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .news-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .news-date {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .news-description {
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="logo">EventPulse</div>
+        <div class="nav-links">
+            <a href="events.html">Events</a>
+            <a href="donate.html">Donate</a>
+            <a href="services.html">Marketplace</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="index.html" id="inside">SignUp/LogIn</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+
+        <div class="hero-content">
+            <h1>Community Events Hub</h1>
+            <div class="typing-container">
+                <div id="typing-text" class="typing-text"></div>
+            </div>
+            <p>Join us in building stronger communities through meaningful events and generous donations. Together, we can make a difference!</p>
+            <div class="cta-buttons">
+                <button class="cta-button" onclick="location.href='events.html'">Join an Event</button>
+                <button class="cta-button alt" onclick="location.href='donate.html'">Make a Donation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Slider Section -->
+    <section class="events-section" id="events">
+        <h2 class="section-title">Upcoming Events</h2>
+
+        <div class="slider-container">
+            <div class="event-slider" id="eventSlider">
+            </div>
+
+            <div class="slider-buttons">
+                <button class="slider-btn prev-btn" id="prevBtn" onclick="location.href='events.html'">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+                <button class="slider-btn next-btn" id="nextBtn" onclick="location.href='events.html'">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section" id="communityNews">
+        <h2 class="section-title">Community News</h2>
+        <div class="news-container" id="newsContainer">
+            <div class="news-card">
+                <h3 class="news-title">New Recycling Program Starts Next Month</h3>
+                <div class="news-date">2025-03-10</div>
+                <p class="news-description">A new recycling program will be implemented to reduce waste and promote environmental awareness.</p>
+            </div>
+            <div class="news-card">
+                <h3 class="news-title">Local Charity Run Scheduled for April</h3>
+                <div class="news-date">2025-04-15</div>
+                <p class="news-description">Participate in our annual charity run to support local causes and foster community spirit.</p>
+            </div>
+            <div class="news-card">
+                <h3 class="news-title">Monthly Town Hall Meeting</h3>
+                <div class="news-date">2025-03-20</div>
+                <p class="news-description">Join us for the monthly town hall meeting to discuss community issues and upcoming events.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section">
+        <h2 class="section-title">Community Feedback</h2>
+
+        <div class="feedback-form">
+            <h3>We value your feedback!</h3>
+            <form id="feedbackForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <textarea id="message" placeholder="Your Feedback" rows="4" required></textarea>
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+
+        <div class="review-slider">
+            <div class="review-container" id="reviewContainer">
+            </div>
+            <div class="slider-buttons">
+                <button class="slider-btn prev-btn" id="prevReviewBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                <button class="slider-btn next-btn" id="nextReviewBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">EventPulse</h3>
+                <p>Building stronger communities through meaningful events and generous donations.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#donate">Donate</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Community St, City</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> info@eventpulse.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EventPulse. All rights reserved.</p>
+        </div>
+    </footer>
+    <div class="success-message" id="successMessage"></div>
+    <script>
+        const typingTextElement = document.getElementById('typing-text');
+        const phrases = [
+            "Building Better Communities",
+            "Creating Lasting Connections",
+            "Empowering Local Initiatives",
+            "Inspiring Positive Change"
+        ];
+
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+
+            if (isDeleting) {
+                typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 150;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typingSpeed = 1000;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typingSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typingSpeed);
+        }
+
+
+        setTimeout(typeEffect, 1000);
+
+
+        let prevScrollPos = window.pageYOffset;
+        const navbar = document.getElementById('navbar');
+
+        window.onscroll = function() {
+            const currentScrollPos = window.pageYOffset;
+
+            if (prevScrollPos > currentScrollPos) {
+                navbar.classList.remove('hidden');
+            } else if (currentScrollPos > 100) {
+                navbar.classList.add('hidden');
+            }
+
+            prevScrollPos = currentScrollPos;
+        };
+
+        const eventData = [{
+                title: "Community Garden Planting Day",
+                date: "2025-03-25T14:00:00",
+                location: "Central Park Community Garden",
+                description: "Join us for a day of cleaning and beautifying our park.",
+                image: "images/garden.jpg"
+            }, {
+                title: "Environmental Cleanup Day",
+                date: "2025-04-20T09:00:00",
+                location: "Lakeside Park",
+                description: "Participate in our charity run to support local causes.",
+                image: "images/cleanup.jpg"
+            }, {
+                title: "Farmers Market Opening",
+                date: "2025-04-20T09:00:00",
+                location: "Downtown",
+                description: "Participate in our charity run to support local causes.",
+                image: "images/farm.jpg"
+            }, {
+                title: "Art in Park Exibition",
+                date: "2025-04-20T09:00:00",
+                location: "Downtown",
+                description: "Participate in our charity run to support local causes.",
+                image: "images/art.jpg"
+            },
+            // Add more events as needed
+        ];
+
+        function generateEventCards() {
+            const eventSlider = document.getElementById('eventSlider');
+            eventData.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+
+                // Countdown calculation
+                const eventDate = new Date(event.date);
+                const now = new Date();
+                const timeDiff = eventDate - now;
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+                card.innerHTML = `
+            <img src="${event.image}" alt="${event.title}" class="event-image">
+            <div class="event-details">
+                <span class="event-date">${event.date.split("T")[0]}</span>
+                <h3 class="event-title">${event.title}</h3>
+                <div class="event-location">${event.location}</div>
+                <p class="event-description">${event.description}</p>
+                <div class="countdown">${days}d ${hours}h ${minutes}m until the event!</div>
+                <button class="cta-button">Join Event</button>
+            </div>
+        `;
+
+                eventSlider.appendChild(card);
+            });
+        }
+
+        generateEventCards();
+
+
+        function moveSlider(direction) {
+            const cards = document.querySelectorAll('.event-card');
+            const cardWidth = cards[0].offsetWidth + 32;
+            const maxPosition = -(cardWidth * (cards.length - 3));
+
+            if (direction === 'next' && currentPosition > maxPosition) {
+                currentPosition -= cardWidth;
+            } else if (direction === 'prev' && currentPosition < 0) {
+                currentPosition += cardWidth;
+            }
+
+            eventSlider.style.transform = `translateX(${currentPosition}px)`;
+        }
+
+        prevBtn.addEventListener('click', () => moveSlider('prev'));
+        nextBtn.addEventListener('click', () => moveSlider('next'));
+
+        const donationData = [{
+            name: "Sarah J.",
+            amount: 250,
+            time: "2 hours ago"
+        }, {
+            name: "Michael T.",
+            amount: 100,
+            time: "5 hours ago"
+        }, {
+            name: "Emma R.",
+            amount: 75,
+            time: "Yesterday"
+        }, {
+            name: "David K.",
+            amount: 500,
+            time: "Yesterday"
+        }, {
+            name: "Olivia M.",
+            amount: 150,
+            time: "2 days ago"
+        }, {
+            name: "James L.",
+            amount: 200,
+            time: "3 days ago"
+        }, {
+            name: "Sophia P.",
+            amount: 50,
+            time: "3 days ago"
+        }];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const raisedAmount = document.getElementById('raisedAmount');
+            const donationList = document.getElementById('donationList');
+            const donateBtn = document.querySelector('.donate-btn');
+
+            let totalRaised = donationData.reduce((sum, donation) => sum + donation.amount, 0);
+            const goalAmount = 25000;
+
+            updateDonationTracker();
+            generateDonationList();
+
+            donateBtn.addEventListener('click', function() {
+                simulateDonation();
+            });
+
+            function updateDonationTracker() {
+                const percentComplete = Math.min(Math.round((totalRaised / goalAmount) * 100), 100);
+
+                progressBar.style.width = `${percentComplete}%`;
+                progressText.textContent = `${percentComplete}%`;
+                raisedAmount.textContent = `$${totalRaised.toLocaleString()} of $${goalAmount.toLocaleString()}`;
+            }
+
+            function generateDonationList() {
+                donationList.innerHTML = '';
+
+                donationData.forEach(donation => {
+                    const item = document.createElement('div');
+                    item.className = 'donation-item';
+
+                    const initials = donation.name.split(' ').map(n => n[0]).join('');
+
+                    item.innerHTML = `
+                        <div class="donor-avatar">${initials}</div>
+                        <div class="donor-info">
+                            <div class="donor-name">${donation.name}</div>
+                            <div class="donation-time">${donation.time}</div>
+                        </div>
+                        <div class="donation-amount">$${donation.amount}</div>
+                    `;
+
+                    donationList.appendChild(item);
+                });
+            }
+
+            function simulateDonation() {
+                const donationAmount = Math.floor(Math.random() * 191) + 10;
+                const names = ["Alex W.", "Jamie S.", "Taylor B.", "Jordan C.", "Riley M.", "Casey N."];
+                const randomName = names[Math.floor(Math.random() * names.length)];
+
+                donationData.unshift({
+                    name: randomName,
+                    amount: donationAmount,
+                    time: "Just now"
+                });
+
+                totalRaised += donationAmount;
+                updateDonationTracker();
+                generateDonationList();
+                showConfirmationMessage(randomName, donationAmount);
+
+                donateBtn.classList.add('active');
+                setTimeout(() => {
+                    donateBtn.classList.remove('active');
+                }, 300);
+            }
+
+            function showConfirmationMessage(name, amount) {
+                const message = document.createElement('div');
+                message.className = 'donation-confirmation';
+                message.textContent = `Thank you ${name} for your generous donation of $${amount}!`;
+                message.style.cssText = `
+                    position: fixed;
+                    top: -100px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: linear-gradient(to right, var(--primary), var(--pink));
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    transition: top 0.5s ease;
+                    z-index: 1000;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                `;
+
+                document.body.appendChild(message);
+
+                setTimeout(() => {
+                    message.style.top = '20px';
+                }, 10);
+
+                setTimeout(() => {
+                    message.style.top = '-100px';
+                    setTimeout(() => {
+                        message.remove();
+                    }, 500);
+                }, 3000);
+            }
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .donate-btn.active {
+                    transform: scale(0.95);
+                    box-shadow: 0 2px 8px rgba(241, 91, 181, 0.3);
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        const feedbackForm = document.getElementById('feedbackForm');
+        const reviewContainer = document.getElementById('reviewContainer');
+        const feedbackList = [];
+
+        feedbackForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+
+            const feedbackEntry = {
+                name,
+                message
+            };
+            feedbackList.push(feedbackEntry);
+
+            feedbackForm.reset();
+
+            displayReviews();
+        });
+
+        function displayReviews() {
+            reviewContainer.innerHTML = '';
+            feedbackList.forEach((feedback, index) => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                reviewCard.innerHTML = `
+            <div class="reviewer-info">
+                <div class="reviewer-avatar"></div>
+                <div class="reviewer-name">${feedback.name}</div>
+            </div>
+            <div class="review-text">${feedback.message}</div>
+        `;
+                reviewContainer.appendChild(reviewCard);
+            });
+        }
+
+        let currentIndex = 0;
+
+        document.getElementById('nextReviewBtn').addEventListener('click', () => {
+            if (currentIndex < feedbackList.length - 1) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        document.getElementById('prevReviewBtn').addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+
+        function updateSlider() {
+            const offset = -currentIndex * (300 + 32);
+            reviewContainer.style.transform = `translateX(${offset}px)`;
+        }
+        let isLoggedIn = false;
+        let currentUser = null;
+
+        function handleAuth(event, isSignUp) {
+            event.preventDefault();
+
+            const email = document.getElementById(isSignUp ? 'signup-email' : 'login-email').value;
+            const password = document.getElementById(isSignUp ? 'signup-password' : 'login-password').value;
+            const name = isSignUp ? document.getElementById('signup-name').value : email.split('@')[0];
+
+            isLoggedIn = true;
+            currentUser = {
+                name: name,
+                email: email
+            };
+
+            updateUserInterface();
+
+            showSuccessMessage(isSignUp ? 'Successfully signed up!' : 'Successfully logged in!');
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        }
+
+        function updateUserInterface() {
+            const loginButton = document.getElementById('loginButton');
+            const userDropdown = document.getElementById('userDropdown');
+
+            if (isLoggedIn && currentUser) {
+                loginButton.textContent = currentUser.name;
+                loginButton.classList.add('logged-in');
+            } else {
+                loginButton.textContent = 'Sign Up/Login';
+                loginButton.classList.remove('logged-in');
+            }
+        }
+
+        function showSuccessMessage(message) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            currentUser = null;
+            updateUserInterface();
+            showSuccessMessage('Successfully logged out!');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('loginButton');
+            const userDropdown = document.getElementById('userDropdown');
+            const logoutLink = document.getElementById('logoutLink');
+
+            // Toggle dropdown
+            loginButton.addEventListener('click', () => {
+                if (isLoggedIn) {
+                    userDropdown.classList.toggle('active');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.user-menu')) {
+                    userDropdown.classList.remove('active');
+                }
+            });
+
+            // Handle logout
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleLogout();
+            });
+
+            // Add form submission handlers
+            const loginForm = document.querySelector('.card-front .form-section');
+            const signupForm = document.querySelector('.card-back .form-section');
+
+            loginForm.querySelector('button').addEventListener('click', (e) => handleAuth(e, false));
+            signupForm.querySelector('button').addEventListener('click', (e) => handleAuth(e, true));
+        });
+        // Homepage: Retrieve and display user email
+        window.onload = function() {
+            let email = localStorage.getItem("userEmail");
+            if (email) {
+                alert("hello " + email);
+            }
+        };
+
+
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            // Set username text
+            document.getElementById("inside").textContent = "";
+
+            // Create dropdown structure
+            const dropdown = document.createElement("div");
+            dropdown.classList.add("dropdown");
+            dropdown.innerHTML = `
+            <button class="dropbtn" id="profileBtn">${user.username} ▼</button>
+            <div class="dropdown-content" id="dropdownMenu">
+                <a href="/profile.html">Profile</a>
+                <a href="/index.html" id="logout">Logout</a>
+            </div>
+    `;
+            document.getElementById("inside").appendChild(dropdown);
+
+            // Toggle dropdown visibility on button click
+            document.getElementById("profileBtn").addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                document.getElementById("dropdownMenu").classList.toggle("show");
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", (event) => {
+                if (!dropdown.contains(event.target)) {
+                    document.getElementById("dropdownMenu").classList.remove("show");
+                }
+            });
+
+            document.getElementById("profileLink").addEventListener("click", () => {
+                window.location.href = "profile.html";
+            });
+
+            // Logout functionality
+            document.getElementById("logout").addEventListener("click", () => {
+                localStorage.removeItem("user");
+                alert("You have been logged out!");
+                window.location.href = "/login.html";
+            });
+        }
+    </script>
+</body>
+
+</html>
