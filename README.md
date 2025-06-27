@@ -5,5 +5,5 @@ Built using HTML, CSS, JavaScript (frontend) and MongoDB (backend).
 📅 View, add, and register for events with volunteer slots.
 🧑‍🤝‍🧑 Volunteers can register and track their events.
 🛒 Marketplace to sell/buy event-related items.
-📬 Contact form to reach organizers or sellers.
+📬 Contact form to reach organizers or sellers.==
 
