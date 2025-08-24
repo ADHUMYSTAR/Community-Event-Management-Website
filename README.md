@@ -25,3 +25,19 @@ A **full-stack web app** to manage community events, volunteers, and a local mar
 ```bash
 git clone https://github.com/yourusername/community-event-platform.git
 cd community-event-platform
+```
+2️⃣ Install dependencies
+```bash
+npm install
+```
+3️⃣ Configure Environment
+```bash
+Create a .env file in the root with:
+```
+MONGO_URI=your_mongo_connection_string
+JWT_SECRET=your_secret_key
+PORT=5000
+
+4️⃣ Start the server
+```bash
+npm start
